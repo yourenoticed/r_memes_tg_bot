@@ -3,7 +3,6 @@ import telebot
 from service import Service
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
-DB_URI = os.environ.get("DB_URI")
 
 bot = telebot.TeleBot(BOT_TOKEN)
 @bot.message_handler(commands=['start', 'hello'])
