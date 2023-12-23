@@ -1,7 +1,6 @@
 from meme_parser import MemeParser
 from r_queries import R_Queries
 from json import loads
-from time import sleep
 
 class Service():
     def __init__(self, sr: str):
@@ -9,20 +8,26 @@ class Service():
         
     def get_hot_memes(self, limit=25):
         response = self.query.get_hot(limit)
-        memes = loads(response.text)
-        children = memes["data"]["children"]
-        return MemeParser(children)
+        try:
+            memes = loads(response.content)
+            children = memes["data"]["children"]
+            return MemeParser(children)
+        except:
+            return None
     
     def get_new_memes(self, limit=25):
         response = self.query.get_new(limit)
-        memes = loads(response.text)
-        children = memes["data"]["children"]
-        return MemeParser(children)
+        try:
+            memes = loads(response.content)
+            children = memes["data"]["children"]
+            return MemeParser(children)
+        except:
+            return None
     
     def get_random_meme(self):
         response = self.query.get_random()
         try:
-            memes = loads(response.text)
+            memes = loads(response.content)
             children = memes[0]["data"]["children"]
             meme_data = MemeParser(children)[0]
             return meme_data
