@@ -6,6 +6,15 @@ class Service():
     def __init__(self, sr=""):
         self.query = R_Queries("http://www.reddit.com/r/" + sr)
         
+    def get_best_memes(self, limit=25):
+        response = self.query.get_best(limit)
+        try:
+            memes = loads(response.content)
+            children = memes["data"]["children"]
+            return MemeParser(children)
+        except:
+            return None
+            
     def get_hot_memes(self, limit=25):
         response = self.query.get_hot(limit)
         try:

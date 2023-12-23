@@ -15,6 +15,11 @@ class R_Queries():
         response.content
         return response
     
+    def get_best(self, limit=25):
+        response = get(self.link, + "/best.json", params={"limit": limit}, timeout=2)
+        response.content
+        return response
+    
     def get_new(self, limit=25):
         response = get(self.link + "/new.json", params={"limit": limit}, timeout=2)
         response.content
@@ -27,5 +32,10 @@ class R_Queries():
     
     def get_random(self):
         response = get(self.link + "/random.json", timeout=2, allow_redirects=True)
+        response.content
+        return response
+    
+    def get_search(self, prompt: str):
+        response = get("http://reddit.com/api/search_reddit_names.json", params={"query": prompt, "exact": False}, timeout=2)
         response.content
         return response
