@@ -26,9 +26,13 @@ def send_new(message):
     msg = message.text.split()
     service = Service(msg[1])
     if len(msg) > 2 and msg[2].isdigit():
-        memes = service.get_new_memes(msg[2])
+        memes = None
+        while not verify_download(memes):
+            memes = service.get_new_memes(msg[2])
     else:
-        memes = service.get_new_memes()
+        memes = None
+        while not verify_download(memes):
+            memes = service.get_new_memes()
         
     for meme in memes:
         bot.send_photo(message.chat.id, meme)
@@ -36,6 +40,12 @@ def send_new(message):
 @bot.message_handler(func=lambda msg: True)
 def send_random(message):
     service = Service(message.text)
-    bot.send_photo(message.chat.id, service.get_random_meme())
+    meme = None
+    while not verify_download(meme):
+        meme = service.get_random_meme()
+    bot.send_photo(message.chat.id, meme)
+        
+def verify_download(meme):
+    return meme is not None and len(meme) > 0
     
 bot.infinity_polling()

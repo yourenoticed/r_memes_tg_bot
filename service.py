@@ -21,11 +21,10 @@ class Service():
     
     def get_random_meme(self):
         response = self.query.get_random()
-        memes = loads(response.text)
-        while len(memes) <= 0:
-            response = self.query.get_random()
-            sleep(1)
+        try:
             memes = loads(response.text)
-        children = memes[0]["data"]["children"]
-        meme_data = MemeParser(children)[0]
-        return meme_data
+            children = memes[0]["data"]["children"]
+            meme_data = MemeParser(children)[0]
+            return meme_data
+        except:
+            return None
