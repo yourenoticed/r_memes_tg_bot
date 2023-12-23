@@ -16,7 +16,7 @@ class R_Queries():
         return response
     
     def get_best(self, limit=25):
-        response = get(self.link, + "/best.json", params={"limit": limit}, timeout=2)
+        response = get(self.link + "/best.json", params={"limit": limit}, timeout=2)
         response.content
         return response
     
